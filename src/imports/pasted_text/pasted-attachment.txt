@@ -1,0 +1,219 @@
+Act as a world-class portfolio designer, creative director, senior frontend engineer, and personal branding expert.
+
+Create a premium portfolio website concept and implementation plan for:
+
+Name: Adam Omar Hissane
+Role: Full-Stack Developer
+Location: Morocco
+Email: omaradamhissane@gmail.com
+LinkedIn: https://www.linkedin.com/in/hissaneomaradam/
+GitHub: https://github.com/hissaneomaradam
+
+STYLE DIRECTION:
+Minimalistic, futuristic, premium, and unique.
+Make it feel “worth a billion” but not overloaded.
+Inspired by:
+- Old iMac / retro Apple aesthetics
+- Futuristic SaaS dashboards
+- Glassmorphism
+- Clean developer portfolios
+- Subtle cyber/AI visual language
+
+VISUAL IDENTITY:
+Theme: Retro-futuristic Apple-inspired portfolio
+Mood: elegant, clean, confident, creative, high-tech
+Avoid: childish colors, messy gradients, too many effects, generic templates
+
+COLOR PALETTE:
+- Deep Graphite: #0B0F14
+- Soft iMac Silver: #D8DEE9
+- Frosted Glass: rgba(255,255,255,0.08)
+- Electric Cyan: #00E5FF
+- Soft Violet: #8B5CF6
+- Lime Accent: #A3FF12
+- Warm Retro Beige: #F5E9D3
+
+TYPOGRAPHY:
+Use:
+- Space Grotesk for headings
+- Inter for body text
+- JetBrains Mono for code-style details
+
+WEBSITE STRUCTURE:
+
+1. Hero Section
+Create a futuristic old-iMac-style hero.
+Include:
+- Big name: Adam Omar Hissane
+- Title: Full-Stack Developer
+- Short line: “Building clean, scalable, and human-centered digital products.”
+- CTA buttons: View Projects / GitHub / LinkedIn
+- 3D old iMac-inspired monitor mockup showing code or project preview
+- Animated gradient glow behind monitor
+- Minimal floating UI cards showing React, Laravel, Node.js, MongoDB
+
+Animations:
+- Hero fade-in
+- Name gradient shimmer
+- iMac monitor floating slowly
+- Skill cards orbiting subtly
+- Cursor glow effect
+
+2. About Section
+Write a strong but short about section.
+Mention:
+- Full-Stack Development student at CMC Béni Mellal
+- Classe d'Excellence first edition
+- Passion for real-world products, clean UI, backend logic, and startup ideas
+
+Design:
+- Frosted glass card
+- Small terminal-style intro block
+- Minimal timeline detail
+
+3. Projects Section
+Show premium project cards for:
+
+Project 1: CoBIM Cloud
+Description:
+Cloud-based BIM collaboration platform for AEC teams with IFC visualization, project collaboration, document workflows, and modern dashboard UI.
+
+Tech:
+React, TypeScript, Firebase, Three.js, Tailwind CSS
+
+Project 2: UniBuddy
+Description:
+University-focused social platform helping students connect, collaborate, and build campus communities.
+
+Tech:
+React, Node.js/Laravel, MongoDB/MySQL, Tailwind CSS
+
+Project 3: Academic Laravel Projects
+Description:
+CRUD systems, authentication, validation, database relations, MVC architecture, and MySQL-based web apps.
+
+Card style:
+- Glassmorphism
+- Soft glowing border
+- Project screenshot placeholder
+- Hover lift
+- Magnetic button effect
+- “View Project” and “GitHub” buttons
+
+4. Skills Section
+Group skills into elegant animated badges:
+
+Frontend:
+React, JavaScript, TypeScript, HTML, CSS, Tailwind, Bootstrap
+
+Backend:
+Laravel, PHP, Node.js, Express
+
+Database:
+MySQL, MongoDB
+
+Tools:
+Git, GitHub, Docker, Firebase, Vite, Postman
+
+Design:
+- Bento grid
+- Animated icons
+- Hover glow
+- Staggered reveal on scroll
+
+5. Achievements Section
+Include:
+- 3rd Place – Regional Final, INJAZ Al-Maghrib Student Company Program
+- Classe d'Excellence – First Edition, CMC Béni Mellal
+- MongoDB and Cisco certifications
+- Hackathon and innovation program participation
+
+Design:
+- Timeline layout
+- Neon dot indicators
+- Smooth scroll reveal
+
+6. Certifications Section
+Include:
+- MongoDB Aggregation
+- MongoDB Aggregation with Node.js
+- Python Essentials 1
+- Introduction to Modern AI
+- Introduction to Cybersecurity
+- Computer Hardware Basics
+
+Design:
+- Minimal certificate cards
+- Small issuer label
+- Hover animation
+
+7. Contact Section
+Include:
+- Email button
+- LinkedIn button
+- GitHub button
+- Short CTA: “Let’s build something clean, useful, and memorable.”
+
+Design:
+- Retro terminal contact card
+- Animated typing effect
+- Glowing submit/contact buttons
+
+ANIMATION REQUIREMENTS:
+Use subtle premium animations, not excessive ones:
+- Smooth scroll
+- Scroll reveal
+- Hero object floating
+- Text fade-up
+- Magnetic buttons
+- Hover tilt cards
+- Animated gradient borders
+- Cursor spotlight
+- Background particles very subtle
+- Page transition blur
+- Skill badges staggered animation
+
+TECH STACK:
+Build using:
+- React
+- Vite
+- Tailwind CSS
+- Framer Motion
+- React Icons
+- Optional: Three.js or Spline for the old iMac 3D element
+
+DESIGN SYSTEM:
+Use:
+- Rounded corners: 24px to 32px
+- Large spacing
+- Dark background
+- Frosted glass cards
+- Thin borders
+- Soft shadows
+- Minimal icons
+- Strong typography hierarchy
+- Responsive mobile-first layout
+
+OLD IMAC DETAIL:
+Create a stylized old iMac-inspired component:
+- Rounded CRT/iMac shape
+- Frosted translucent shell
+- Soft cyan/violet glow
+- Screen displaying animated code or project previews
+- Slight floating animation
+- Retro Apple-inspired but not copied exactly
+
+OUTPUT REQUIRED:
+1. Full portfolio website concept.
+2. Section-by-section copywriting.
+3. Visual design system.
+4. Color palette.
+5. Animation plan.
+6. React + Tailwind component structure.
+7. Homepage wireframe description.
+8. Code-ready instructions for implementation.
+9. Make it premium, minimalistic, futuristic, and unforgettable.
+
+Do not make it look like a generic developer portfolio.
+Do not overload it with random neon effects.
+Make it elegant, clean, futuristic, and expensive.

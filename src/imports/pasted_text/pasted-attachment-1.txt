@@ -1,0 +1,249 @@
+Act as a world-class creative director and frontend engineer.
+
+Create a personal portfolio website for:
+
+Name: Omar Adam Hissane  
+Role: Full-Stack Developer  
+Email: omaradamhissane@gmail.com  
+GitHub: https://github.com/hissaneomaradam  
+LinkedIn: https://www.linkedin.com/in/hissaneomaradam/  
+
+Projects:
+- CoBIM Cloud: https://cobim-cloud.vercel.app/
+- UniBuddy: https://www.unibuddy.me/
+
+STYLE DIRECTION:
+Create a portfolio inspired by the visual energy of Balatro: playing-card UI, poker-table atmosphere, retro game charm, bold typography, satisfying animations, and premium arcade polish.
+
+Important:
+Do NOT copy Balatro assets, logos, exact UI, characters, sounds, or copyrighted art.
+Use only a legally safe inspiration:
+- Playing cards
+- Poker chips
+- casino table layout
+- retro CRT texture
+- joker-like playful energy
+- pixel/arcade-inspired motion
+- bold score counters
+- card flip animations
+
+MOOD:
+Minimal but playful.
+Futuristic casino.
+Developer portfolio as a deck of powerful cards.
+Every project feels like a rare card.
+
+COLOR PALETTE:
+- Deep Casino Navy: #07111F
+- Poker Table Green: #0B5D45
+- Card Cream: #F8F1DC
+- Red Accent: #E63946
+- Gold Accent: #FFD166
+- Electric Blue: #118AB2
+- Soft Black: #050505
+
+TYPOGRAPHY:
+Headings:
+- Space Grotesk or Archivo Black
+
+Body:
+- Inter
+
+Code / stats:
+- JetBrains Mono
+
+WEBSITE CONCEPT:
+“The Developer Deck”
+
+The whole website feels like opening a rare deck of cards where each section is a card type.
+
+SECTIONS:
+
+1. HERO — “The Ace”
+Create a bold hero section like a premium card table.
+
+Text:
+OMAR ADAM HISSANE
+Full-Stack Developer
+
+Tagline:
+Building clean, scalable web apps with style and logic.
+
+Visual:
+A large animated Ace-style card with Omar’s initials “OAH”.
+Around it, floating mini cards showing:
+React
+Laravel
+Node.js
+MongoDB
+TypeScript
+
+Animations:
+- Cards shuffle in on load
+- Main card flips into view
+- Skill cards float slightly
+- Background has subtle poker-table texture
+- Mouse movement creates card tilt
+
+Buttons:
+- View Projects
+- GitHub
+- LinkedIn
+
+2. ABOUT — “Player Profile”
+Design as a player stat card.
+
+Include:
+- Full-Stack Development student
+- CMC Béni Mellal
+- Classe d'Excellence first edition
+- Passion for products, startups, UI, backend logic, and real-world apps
+
+Stats style:
+- Frontend
+- Backend
+- Databases
+- UI/UX
+- Problem Solving
+
+Use counters, chips, and badge-like elements.
+
+3. PROJECTS — “Rare Cards”
+Each project is a collectible card.
+
+Project Card 1:
+CoBIM Cloud
+Link: https://cobim-cloud.vercel.app/
+Type: Enterprise BIM Collaboration Platform
+Tech: React, TypeScript, Firebase, Three.js, Tailwind CSS
+
+Project Card 2:
+UniBuddy
+Link: https://www.unibuddy.me/
+Type: Student Networking Platform
+Tech: React, Tailwind, Full-Stack Web Technologies
+
+Project Card 3:
+Academic Laravel Projects
+Type: Backend Training Projects
+Tech: Laravel, PHP, MySQL, MVC, CRUD, Auth, Validation
+
+Card behavior:
+- Hover tilt
+- Flip to reveal details
+- Rarity badge: Featured / Live / Full-Stack
+- Animated border glow
+- “Play Project” button
+- “View Code” button if available
+
+4. SKILLS — “The Deck”
+Show skills as small cards.
+
+Categories:
+Frontend:
+React, TypeScript, JavaScript, HTML, CSS, Tailwind, Bootstrap
+
+Backend:
+Laravel, PHP, Node.js, Express
+
+Database:
+MySQL, MongoDB
+
+Tools:
+Git, GitHub, Docker, Firebase, Vite, Postman
+
+Animations:
+- Skill cards shuffle into grid
+- Hover enlarges card
+- Selected skill glows like a winning card
+
+5. ACHIEVEMENTS — “Winning Hands”
+Use poker-hand style rows.
+
+Include:
+- 3rd Place Regional Final — INJAZ Al-Maghrib
+- Classe d'Excellence — First Edition
+- MongoDB Certifications
+- Cisco Certifications
+- Hackathon Participation
+
+Design:
+- Achievement cards
+- Poker chip icons
+- Gold highlight for top achievements
+- Smooth reveal on scroll
+
+6. CERTIFICATIONS — “Power-Ups”
+Create small badge cards.
+
+Include:
+- MongoDB Aggregation
+- MongoDB Aggregation with Node.js
+- Python Essentials 1
+- Introduction to Modern AI
+- Introduction to Cybersecurity
+- Computer Hardware Basics
+
+7. CONTACT — “Final Hand”
+Design as a final winning hand.
+
+Text:
+Ready to build something meaningful?
+
+Buttons:
+- Email Me
+- GitHub
+- LinkedIn
+
+Animation:
+Cards align into a royal-flush-inspired layout without copying copyrighted graphics.
+
+ANIMATION REQUIREMENTS:
+Use Framer Motion.
+
+Include:
+- Card shuffle intro
+- Card flip transitions
+- Hover tilt
+- Magnetic buttons
+- Scroll reveal
+- Chip bounce micro-interactions
+- Subtle CRT grain
+- Smooth page transitions
+- Score counter animation
+- Cursor spotlight
+
+DESIGN RULES:
+- Must be premium, not childish
+- Must feel like a high-end indie game UI
+- Must remain readable and professional
+- Avoid gambling-heavy wording
+- Avoid copied Balatro assets
+- Avoid messy neon overload
+- Keep spacing clean
+- Make it responsive and mobile-first
+
+TECH STACK:
+React
+Vite
+Tailwind CSS
+Framer Motion
+React Icons
+
+OPTIONAL:
+Three.js for floating cards
+Canvas background for particles
+Howler.js for tiny optional UI sounds, disabled by default
+
+OUTPUT REQUIRED:
+1. Full portfolio concept
+2. Section-by-section copywriting
+3. UI design system
+4. Color palette
+5. Animation plan
+6. React component architecture
+7. Tailwind class strategy
+8. Homepage wireframe
+9. Code-ready implementation instructions
+
+Make the website feel like a premium developer portfolio disguised as a legendary card deck.
