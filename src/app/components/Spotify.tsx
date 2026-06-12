@@ -9,11 +9,11 @@ const PLAYLIST_URL = "https://open.spotify.com/playlist/5JwoZ2rS5LOyVMoLS26pB8?s
 const EMBED_URL = "https://open.spotify.com/embed/playlist/5JwoZ2rS5LOyVMoLS26pB8?utm_source=generator&theme=0";
 
 const fakeArtists = [
-  { name: "Hans Zimmer", genre: "Cinematic", emoji: "🎬" },
-  { name: "Vangelis", genre: "Synth · Ambient", emoji: "🌌" },
-  { name: "Daft Punk", genre: "Electronic", emoji: "🤖" },
-  { name: "Massive Attack", genre: "Trip-Hop", emoji: "🌊" },
-  { name: "Moby", genre: "Electronic · Ambient", emoji: "🎧" },
+  { name: "Radiohead", genre: "Alt-rock"  },
+  { name: "System Of A Down", genre: "Rock" },
+  { name: "Daft Punk", genre: "Electronic" },
+  { name: "Pink Floyd", genre: "Progressive Rock"},
+  { name: "Sade", genre: "Funk · Soul" },
 ];
 
 function SectionLabel({ label, isNeo }: { label: string; isNeo: boolean }) {

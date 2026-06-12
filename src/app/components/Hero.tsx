@@ -8,8 +8,8 @@ const SUITS_CYCLE = ["♠", "♥", "♦", "♣"];
 
 const skillCards = [
   { label: "React", suit: "♠", color: "#3A86FF", rank: "A" },
-  { label: "Laravel", suit: "♥", color: "#E63946", rank: "K" },
-  { label: "Node.js", suit: "♣", color: "#0E5A47", rank: "Q" },
+  { label: "Agile", suit: "♥", color: "#E63946", rank: "K" },
+  { label: "Laravel", suit: "♣", color: "#0E5A47", rank: "Q" },
   { label: "MongoDB", suit: "♦", color: "#FFD166", rank: "J" },
   { label: "TypeScript", suit: "♠", color: "#7B2CBF", rank: "10" },
 ];

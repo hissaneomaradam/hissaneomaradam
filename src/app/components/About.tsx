@@ -31,9 +31,9 @@ const stats = [
 ];
 
 const playerCards = [
-  { label: "Level", value: "II", sub: "2nd Year", color: "#FFD166" },
+  { label: "Level", value: "DEVOWFS", sub: "2nd Year", color: "#FFD166" },
   { label: "Status", value: "OPEN", sub: "For Work", color: "#A3FF12" },
-  { label: "Location", value: "MA", sub: "Béni Mellal", color: "#118AB2" },
+  { label: "Location", value: "MA", sub: "Khouribga / Béni Mellal", color: "#118AB2" },
   { label: "Class", value: "EXC", sub: "Excellence", color: "#E63946" },
 ];
 

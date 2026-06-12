@@ -43,7 +43,7 @@ const interests = [
   {
     icon: Music,
     label: "Music",
-    desc: "Cinematic scores, electronic ambience, and anything that codes well to.",
+    desc: "I Like rock music.",
     color: "#FF2D95",
   },
   {
@@ -73,7 +73,7 @@ const interests = [
   {
     icon: Film,
     label: "Films",
-    desc: "Sci-Fi, Denis Villeneuve, and anything that expands the imagination.",
+    desc: "Anything from Kubrick to Tarantino — storytelling through visuals and sound.",
     color: "#3A86FF",
   },
   {

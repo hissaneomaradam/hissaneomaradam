@@ -303,7 +303,7 @@ const projectsData = [
     rarity: "LEGENDARY" as const,
     tech: ["React", "TypeScript", "Firebase", "Three.js", "Tailwind CSS"],
     liveUrl: "https://cobim-cloud.vercel.app/",
-    githubUrl: "https://github.com/hissaneomaradam/cobim-v2",
+    githubUrl: "https://github.com/MentalSep/COBIM-Cloud",
     accentColor: "#FFD166",
     metrics: [
       { value: "250+", label: "Users" },
@@ -327,9 +327,9 @@ const projectsData = [
   {
     id: "Q", suit: "♦", suitColor: "#118AB2",
     rarity: "RARE" as const,
-    tech: ["Laravel", "PHP", "MySQL", "MVC", "Auth", "CRUD"],
-    liveUrl: null,
-    githubUrl: "https://github.com/hissaneomaradam/megaShop",
+    tech: ["Laravel", "PHP", "MySQL", "MVC", "Auth", "CRUD","Typescript", "React", "Tailwind CSS"],
+    liveUrl: "https://hissaneomaradam.dev/",
+    githubUrl: "https://github.com/hissaneomaradam/hissaneomaradam",
     accentColor: "#118AB2",
     metrics: [
       { value: "6+", label: "Projects" },

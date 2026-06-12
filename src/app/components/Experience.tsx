@@ -82,17 +82,17 @@ export function Experience() {
 
                 {/* Role */}
                 <h4 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "1rem", color: accent, marginBottom: "0.75rem", fontWeight: 600 }}>
-                  Full-Stack Web Developer Intern
+                  Field Survey Intern
                 </h4>
 
                 {/* Description */}
                 <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.9rem", color: "var(--oah-fg2)", lineHeight: 1.7 }}>
-                  Completed a 20-day professional internship focused on web development. Contributed to real-world projects using modern frameworks, collaborated with engineering teams, and gained hands-on experience with production-level development workflows and best practices.
-                </p>
+                 Assisted INNOV Engineering Consulting in the collection and analysis of field data for the Sustainable Urban Mobility Plan (PDUM) of Beni Mellal. Conducted transportation surveys, gathered mobility insights from local residents, and contributed to data-driven urban planning initiatives aimed at improving sustainable transportation systems and city accessibility.
+                 </p>
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mt-4">
-                  {["Laravel", "React", "MySQL", "REST API", "Agile"].map((tag) => (
+                  {["Data collection", "Field research", "Data analysis", "Urban planning", "Community Engagement"].map((tag) => (
                     <span key={tag} className="px-2.5 py-1 rounded-md text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: "var(--oah-muted)", background: "var(--oah-surface2)", border: "1px solid var(--oah-border)" }}>
                       {tag}
                     </span>
@@ -104,11 +104,11 @@ export function Experience() {
               <div className="flex flex-col gap-3 text-right md:text-right">
                 <div className="flex items-center gap-2 justify-end" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.7rem", color: "var(--oah-muted)" }}>
                   <Calendar size={12} />
-                  <span>2025 · 20 Days</span>
+                  <span>05/02/2026 - 05/22/2026 · 20 Days</span>
                 </div>
                 <div className="flex items-center gap-2 justify-end" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.7rem", color: "var(--oah-muted)" }}>
                   <MapPin size={12} />
-                  <span>Morocco</span>
+                  <span>Béni Mellal, Morocco</span>
                 </div>
                 <div className="px-3 py-1.5 rounded-lg text-xs text-center" style={{ fontFamily: "'JetBrains Mono', monospace", color: secondary, background: isNeo ? "rgba(255,45,149,0.08)" : "rgba(14,90,71,0.1)", border: `1px solid ${isNeo ? "rgba(255,45,149,0.2)" : "rgba(14,90,71,0.25)"}` }}>
                   COMPLETED ✓
