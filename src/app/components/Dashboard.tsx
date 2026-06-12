@@ -239,7 +239,7 @@ export function Dashboard() {
           className="mt-6 text-center"
         >
           <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.55rem", color: "var(--oah-muted)", letterSpacing: "0.08em" }}>
-            PLACEHOLDER DATA · I WILL UPDATE THIS REGULARLY
+            I hate the routine
           </span>
         </motion.div>
       </div>

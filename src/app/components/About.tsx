@@ -81,9 +81,9 @@ function PlayerChip({ label, value, sub, color }: typeof playerCards[0]) {
 
 const terminal = [
   { prompt: "$", cmd: "whoami", out: "Omar Adam Hissane" },
-  { prompt: "$", cmd: "cat class.txt", out: "Classe d'Excellence — First Edition" },
-  { prompt: "$", cmd: "echo $STACK", out: "React · Laravel · Node.js · MongoDB · TypeScript" },
-  { prompt: "$", cmd: "ls passions/", out: "products/  startups/  clean-ui/  backend-logic/  real-apps/" },
+  { prompt: "$", cmd: "cat class.txt", out: "Classe d'Excellence " },
+  { prompt: "$", cmd: "echo $STACK", out: "React · Laravel · Node.js · MongoDB · TypeScript · MySQL" },
+  { prompt: "$", cmd: "ls passions/", out: "products/  startups/  clean-ui/  backend-logic/  real-apps/  cooking/  music/" },
 ];
 
 export function About() {

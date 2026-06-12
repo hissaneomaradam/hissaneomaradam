@@ -116,18 +116,6 @@ export function Experience() {
               </div>
             </div>
 
-            {/* Certificate placeholder */}
-            <div className="mt-8 rounded-xl overflow-hidden" style={{ border: `1px dashed ${isNeo ? "rgba(0,217,255,0.2)" : "rgba(255,209,102,0.2)"}` }}>
-              <div className="p-6 text-center" style={{ background: isNeo ? "rgba(0,217,255,0.02)" : "rgba(255,209,102,0.02)" }}>
-                <Award size={28} style={{ color: accent, margin: "0 auto 0.75rem" }} />
-                <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.7rem", color: "var(--oah-muted)", letterSpacing: "0.1em" }}>
-                  [ INTERNSHIP CERTIFICATE — PLACEHOLDER ]
-                </p>
-                <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.8rem", color: "var(--oah-fg2)", marginTop: "0.5rem" }}>
-                  Certificate from Innov Engineering &amp; Consulting · 2025
-                </p>
-              </div>
-            </div>
           </div>
         </motion.div>
 
@@ -164,7 +152,7 @@ export function Experience() {
               Member of the inaugural Classe d'Excellence cohort at CMC Béni Mellal. A rigorous program combining full-stack development, project-based learning, and industry mentorship — designed for top-tier students with startup and product ambitions.
             </p>
             <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.65rem", color: isNeo ? "#7A5FFF" : "#7B2CBF", background: isNeo ? "rgba(122,95,255,0.08)" : "rgba(123,44,191,0.08)", border: `1px solid ${isNeo ? "rgba(122,95,255,0.2)" : "rgba(123,44,191,0.2)"}` }}>
-              ★ CLASSE D'EXCELLENCE — FIRST EDITION
+              ★ CLASSE D'EXCELLENCE
             </div>
           </div>
         </motion.div>
