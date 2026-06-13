@@ -155,7 +155,7 @@ export const translations = {
         stats: "Statistiques",
         timeline: [
           { year: "2024", label: "Débuts à l'OFPPT / CMC Béni Mellal" },
-          { year: "2025/2026", label: "Classe d'Excellence — Première Édition" },
+          { year: "2025/2026", label: "Classe d'Excellence" },
           { year: "2026", label: "3ème Place — Finale Régionale INJAZ" },
           { year: "MAINTENANT", label: "Ouvert aux nouvelles opportunités" },
         ],

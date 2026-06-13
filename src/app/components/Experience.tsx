@@ -104,7 +104,7 @@ export function Experience() {
               <div className="flex flex-col gap-3 text-right md:text-right">
                 <div className="flex items-center gap-2 justify-end" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.7rem", color: "var(--oah-muted)" }}>
                   <Calendar size={12} />
-                  <span>05/02/2026 - 05/22/2026 · 20 Days</span>
+                  <span>05/02/2026 - 25/02/2026 · 20 Days</span>
                 </div>
                 <div className="flex items-center gap-2 justify-end" style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "0.7rem", color: "var(--oah-muted)" }}>
                   <MapPin size={12} />
