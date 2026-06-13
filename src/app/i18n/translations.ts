@@ -91,7 +91,7 @@ export const translations = {
         certLabel: "Power-Ups",
         certTitle: "Certifications",
         items: [
-          { hand: "GOLD HAND", title: "Classe d'Excellence", org: "CMC Béni Mellal — First Edition" },
+          { hand: "GOLD HAND", title: "Classe d'Excellence", org: "CMC Béni Mellal" },
           { hand: "FLUSH", title: "3rd Place — Regional Final", org: "INJAZ Al-Maghrib Student Company Program" },
           { hand: "STRAIGHT", title: "MongoDB Certifications", org: "MongoDB University" },
           { hand: "PAIR", title: "Hackathon Participant", org: "Innovation & Startup Programs" },

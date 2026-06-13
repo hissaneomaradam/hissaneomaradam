@@ -259,10 +259,10 @@ export function About() {
             {/* Timeline */}
             <div className="mt-5 flex flex-col gap-3">
               {[
-                { year: "2024", label: "Started OFPPT / CMC Béni Mellal", color: "#118AB2" },
-                { year: "2024", label: "Classe d'Excellence — First Edition", color: "#FFD166" },
-                { year: "2025", label: "3rd Place — INJAZ Al-Maghrib Regional", color: "#E63946" },
-                { year: "2026", label: "Open for new opportunities", color: "#0B5D45" },
+                { year: "2024", label: "Started OFPPT / ISGI Khouribga", color: "#118AB2" },
+                { year: "2025/2026", label: "Classe d'Excellence ", color: "#FFD166" },
+                { year: "2026", label: "3rd Place — INJAZ Al-Maghrib Regional", color: "#E63946" },
+                { year: "NOW", label: "Open for new opportunities", color: "#0B5D45" },
               ].map((item, i) => (
                 <motion.div
                   key={i}

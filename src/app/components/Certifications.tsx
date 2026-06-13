@@ -6,13 +6,13 @@ import { useTheme } from "../contexts/ThemeContext";
 import { FileText, Award, ExternalLink } from "lucide-react";
 
 const certs = [
-  { name: "MongoDB Aggregation", issuer: "MongoDB University", year: "2024", color: "#00ED64", icon: "🍃" },
-  { name: "MongoDB Aggregation with Node.js", issuer: "MongoDB University", year: "2024", color: "#00ED64", icon: "🍃" },
-  { name: "Python Essentials 1", issuer: "Cisco NetAcad", year: "2024", color: "#3B82F6", icon: "🐍" },
-  { name: "Introduction to Modern AI", issuer: "Cisco NetAcad", year: "2024", color: "#8B5CF6", icon: "🤖" },
-  { name: "Introduction to Cybersecurity", issuer: "Cisco NetAcad", year: "2024", color: "#EF4444", icon: "🛡️" },
-  { name: "Computer Hardware Basics", issuer: "Cisco NetAcad", year: "2024", color: "#F59E0B", icon: "💻" },
-  { name: "Introduction to IoT", issuer: "Cisco NetAcad", year: "2024", color: "#10B981", icon: "📡" },
+  { name: "MongoDB Aggregation", issuer: "MongoDB University", year: "2026", color: "#00ED64", icon: "🍃" },
+  { name: "MongoDB Aggregation with Node.js", issuer: "MongoDB University", year: "2026", color: "#00ED64", icon: "🍃" },
+  { name: "Python Essentials 1", issuer: "Cisco NetAcad", year: "2025", color: "#3B82F6", icon: "🐍" },
+  { name: "Introduction to Modern AI", issuer: "Cisco NetAcad", year: "2025", color: "#8B5CF6", icon: "🤖" },
+  { name: "Introduction to Cybersecurity", issuer: "Cisco NetAcad", year: "2025", color: "#EF4444", icon: "🛡️" },
+  { name: "Computer Hardware Basics", issuer: "Cisco NetAcad", year: "2025", color: "#F59E0B", icon: "💻" },
+  { name: "Introduction to IoT", issuer: "Cisco NetAcad", year: "2025", color: "#10B981", icon: "📡" },
 ];
 
 function SectionLabel({ label, isNeo }: { label: string; isNeo: boolean }) {
