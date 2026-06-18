@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+.env.local
+npm-debug.log*
+/src/imports/
+default_shadcn_theme.css

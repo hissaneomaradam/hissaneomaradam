@@ -1,0 +1,112 @@
+[
+  {
+    "title": "CRUD Operations in MongoDB",
+    "issuer": "MongoDB",
+    "issued": "Jun 2026",
+    "credentialId": "",
+    "skills": ["CRUD Applications", "MongoDB"],
+    "category": "Database",
+    "logo": "MDB",
+    "url": "https://www.credly.com/badges/9722e959-10af-46ae-8d33-506350df59e9/linked_in_profile"
+  },
+  {
+    "title": "MongoDB Aggregation Fundamentals",
+    "issuer": "MongoDB",
+    "issued": "Jun 2026",
+    "credentialId": "",
+    "skills": ["MongoDB", "Aggregation"],
+    "category": "Database",
+    "logo": "MDB",
+    "url": "https://www.credly.com/badges/12593ed1-871e-4afa-ad70-f2104d14ed68/linked_in_profile"
+  },
+  {
+    "title": "GitHub Foundations",
+    "issuer": "DataCamp",
+    "issued": "Jun 2026",
+    "credentialId": "9654f94eac0655ae3b0041066899ca9ec7c23a91",
+    "skills": ["GitHub", "Git Workflows"],
+    "category": "Tools",
+    "logo": "GH",
+    "url": "https://www.datacamp.com/completed/statement-of-accomplishment/track/9654f94eac0655ae3b0041066899ca9ec7c23a91?utm_medium=organic_social&utm_campaign=sharewidget&utm_content=soa"
+  },
+  {
+    "title": "MongoDB Aggregation with Node.js",
+    "issuer": "MongoDB",
+    "issued": "May 2026",
+    "credentialId": "MDB0ywun0dppn",
+    "skills": ["Node.js", "MongoDB"],
+    "category": "Backend",
+    "logo": "MDB",
+    "url": "https://learn.mongodb.com/c/JMuMGrRJQ1uGSP0Xb9QzMg"
+  },
+  {
+    "title": "MongoDB Aggregation",
+    "issuer": "MongoDB",
+    "issued": "May 2026",
+    "credentialId": "MDBybcdxjubdy",
+    "skills": ["MongoDB", "Aggregation"],
+    "category": "Database",
+    "logo": "MDB",
+    "url": "https://learn.mongodb.com/c/6UuQKwxXRZytOCjR_vKa3A"
+  },
+  {
+    "title": "Aman Hackathon",
+    "issuer": "Code Crafters",
+    "issued": "May 2026",
+    "credentialId": "CC-2026-0018",
+    "skills": ["Hackathon", "Product Building"],
+    "category": "Achievement",
+    "logo": "CC",
+    "url": "https://code-crafters-bm.github.io/certificates/?id=SGlzc2FuZSBPbWFyIEFkYW18QW1hbiBIYWNrYXRob258MjAyNnxDQy0yMDI2LTAwMTh8MjAyNi0wNS0xNg.MEUCIDJgDxgWNFxRD2xROCkED3za6ldpNFo5x3WtqwUsPdeaAiEA4regaba1DlZbUKt-QUoYCoOBksXCP4yyWPGqQ9xnf80&verify=true"
+  },
+  {
+    "title": "Python Essentials 1",
+    "issuer": "Cisco",
+    "issued": "May 2025",
+    "credentialId": "",
+    "skills": ["Python"],
+    "category": "Programming",
+    "logo": "CS",
+    "url": "https://www.credly.com/badges/0809184d-92e2-4d0a-977f-a1285f8a1510/linked_in_profile"
+  },
+  {
+    "title": "Introduction to Modern AI",
+    "issuer": "Cisco",
+    "issued": "May 2025",
+    "credentialId": "",
+    "skills": ["Artificial Intelligence"],
+    "category": "AI",
+    "logo": "CS",
+    "url": "https://www.credly.com/badges/2116cfbd-b251-42d0-9f81-fdb79fc83d6b/linked_in_profile"
+  },
+  {
+    "title": "Introduction to Cybersecurity",
+    "issuer": "Cisco",
+    "issued": "May 2025",
+    "credentialId": "",
+    "skills": ["Cybersecurity"],
+    "category": "Security",
+    "logo": "CS",
+    "url": "https://www.credly.com/badges/c5f84587-5df8-4697-ab18-adc96b7d8a70/linked_in_profile"
+  },
+  {
+    "title": "Computer Hardware Basics",
+    "issuer": "Cisco",
+    "issued": "May 2025",
+    "credentialId": "",
+    "skills": ["Hardware"],
+    "category": "Infrastructure",
+    "logo": "CS",
+    "url": "https://www.credly.com/badges/91d8604b-083f-489f-8426-4b4e27219590/linked_in_profile"
+  },
+  {
+    "title": "Introduction to IoT",
+    "issuer": "Cisco",
+    "issued": "May 2025",
+    "credentialId": "",
+    "skills": ["IoT"],
+    "category": "Infrastructure",
+    "logo": "CS",
+    "url": "https://www.credly.com/badges/91d8604b-083f-489f-8426-4b4e27219590/linked_in_profile"
+  }
+]
