@@ -43,6 +43,8 @@ export const Dock = memo(function Dock({
             className={`dock-item ${isActive ? "active" : ""} ${status === "open" && !isActive ? "open" : ""} ${status === "minimized" ? "minimized" : ""} ${bouncingId === app.id ? "bouncing" : ""}`}
             key={app.id}
             onClick={() => onDockClick(app.id)}
+            aria-label={`${app.title}: ${app.preview}`}
+            title={app.title}
             initial={{ y: 24, opacity: 0 }}
             animate={{ y: bouncingId === app.id && !reducedMotion ? [0, -16, 0, -8, 0] : 0, opacity: 1 }}
             transition={{ delay: bouncingId === app.id ? 0 : 0.025 * index, duration: bouncingId === app.id ? 0.48 : 0.22, type: "spring", stiffness: 420, damping: 24 }}
@@ -54,11 +56,11 @@ export const Dock = memo(function Dock({
           </motion.button>
         );
       })}
-      <a className="dock-item external" href={github} target="_blank" rel="noreferrer">
+      <a className="dock-item external" href={github} target="_blank" rel="noreferrer" aria-label={language === "fr" ? "Ouvrir le profil GitHub" : "Open GitHub profile"} title="GitHub">
         <span className="dock-preview">{language === "fr" ? "Ouvrir le profil GitHub" : "Open GitHub profile"}</span>
         <FaGithub size={24} />
       </a>
-      <a className="dock-item external" href={linkedin} target="_blank" rel="noreferrer">
+      <a className="dock-item external" href={linkedin} target="_blank" rel="noreferrer" aria-label={language === "fr" ? "Ouvrir le profil LinkedIn" : "Open LinkedIn profile"} title="LinkedIn">
         <span className="dock-preview">{language === "fr" ? "Ouvrir le profil LinkedIn" : "Open LinkedIn profile"}</span>
         <FaLinkedin size={24} />
       </a>

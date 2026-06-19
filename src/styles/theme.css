@@ -22,7 +22,7 @@
   --oah-section-alt: rgba(14,90,71,0.04);
   --oah-accent1: #FFD166;
   --oah-accent2: #E63946;
-  --oah-font-display: "'Bungee', cursive";
+  --oah-font-display: "'Orbitron', sans-serif";
   --oah-font-body: "'Space Grotesk', sans-serif";
   --oah-font-mono: "'JetBrains Mono', monospace";
 }
@@ -49,7 +49,7 @@
   --oah-section-alt: rgba(0,217,255,0.02);
   --oah-accent1: #00D9FF;
   --oah-accent2: #FF2D95;
-  --oah-font-display: "'Orbitron', sans-serif";
+  --oah-font-display: "'Bungee', cursive";
   --oah-font-body: "'Space Grotesk', sans-serif";
   --oah-font-mono: "'JetBrains Mono', monospace";
 }

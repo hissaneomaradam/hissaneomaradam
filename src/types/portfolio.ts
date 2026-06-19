@@ -15,7 +15,10 @@ export type AppId =
   | "settings"
   | "mac"
   | "help"
-  | "whyhire";
+  | "whyhire"
+  | "bugbin"
+  | "guestbook"
+  | "achievements";
 
 export type WindowStatus = "open" | "closed" | "minimized";
 export type ThemeName = "system7" | "glass" | "dark";

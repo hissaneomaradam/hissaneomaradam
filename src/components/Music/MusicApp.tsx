@@ -22,6 +22,15 @@ export function MusicApp() {
         </a>
       </section>
 
+      <div className="spotify-note">
+        <strong>{language === "fr" ? "Affichage Spotify" : "Spotify display"}</strong>
+        <span>
+          {language === "fr"
+            ? "Le lecteur intégré montre la playlist publique. Le morceau que vous écoutez en direct sur votre compte Spotify nécessite une connexion API Spotify privée."
+            : "The embedded player shows the public playlist. Your live personal Spotify playback requires a private Spotify API connection."}
+        </span>
+      </div>
+
       <div className="spotify-frame">
         <iframe
           title="Omar Adam Spotify playlist"

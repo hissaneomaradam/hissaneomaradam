@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
 import type { LucideIcon } from "lucide-react";
-import { AlertTriangle, Archive, Check, FileText, Folder, Mail, Music, Moon, Power, RotateCcw, Search, Settings, Terminal, Trash2, UserRound } from "lucide-react";
+import { AlertTriangle, Archive, BadgeCheck, BookOpenText, Bug, Check, FileText, Folder, Mail, Music, Moon, Printer, Power, RotateCcw, Search, Settings, Terminal, Trash2, Trophy, UserRound } from "lucide-react";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { MusicApp } from "../Music/MusicApp";
 import { Dock } from "../Dock/Dock";
@@ -26,9 +26,20 @@ import SkillsPage from "../../pages/SkillsPage";
 import type { AppId, Preferences, ThemeName, Toast, WallpaperName } from "../../types/portfolio";
 
 const prefStorageKey = "hissane-portfolio-os-v3-prefs";
+const contactEndpoint = import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined;
+const achievementStorageKey = "hissane-portfolio-os-v3-achievements";
+const recentStorageKey = "hissane-portfolio-os-v3-recent";
+
+const achievementCatalog = [
+  { id: "projects", title: "Project Explorer", text: "Opened Projects.app" },
+  { id: "resume", title: "CV Printed", text: "Downloaded the resume" },
+  { id: "guestbook", title: "Guestbook Signed", text: "Left a guestbook note" },
+  { id: "bugbin", title: "Bug Janitor", text: "Emptied the Bug Bin" },
+  { id: "secret", title: "Secret Finder", text: "Found a hidden hiring shortcut" },
+] as const;
 
 export function PortfolioOS() {
-  const [bootStage, setBootStage] = useState<"bios" | "login" | "desktop">("bios");
+  const [bootStage, setBootStage] = useState<"loading" | "desktop">("loading");
   const [prefs, setPrefs] = useState<Preferences>(() => readPreferences());
   const {
     windows,
@@ -53,18 +64,20 @@ export function PortfolioOS() {
   const [konami, setKonami] = useState("");
   const [appleClicks, setAppleClicks] = useState(0);
   const [bouncingDock, setBouncingDock] = useState<AppId | null>(null);
+  const [achievements, setAchievements] = useState<string[]>(() => readStringList(achievementStorageKey));
+  const [recentApps, setRecentApps] = useState<AppId[]>(() => readStringList(recentStorageKey) as AppId[]);
+  const [printer, setPrinter] = useState<{ active: boolean; progress: number }>({ active: false, progress: 0 });
+  const [trashEmpties, setTrashEmpties] = useState(0);
   const localizedApps = useMemo(() => getApps(prefs.language), [prefs.language]);
   const localizedDockApps = useMemo(() => getDockApps(prefs.language), [prefs.language]);
 
   useEffect(() => {
-    const bios = window.setTimeout(() => setBootStage("login"), 1550);
-    const login = window.setTimeout(() => {
+    const loading = window.setTimeout(() => {
       setBootStage("desktop");
       pushToast(prefs.language === "fr" ? "Bienvenue, Omar Adam" : "Welcome, Omar Adam", prefs.language === "fr" ? "Finder chargé. Double-cliquez les apps ou appuyez sur Ctrl/Cmd+K." : "Finder loaded. Double-click apps or press Ctrl/Cmd+K.", "success");
-    }, 2850);
+    }, 1500);
     return () => {
-      window.clearTimeout(bios);
-      window.clearTimeout(login);
+      window.clearTimeout(loading);
     };
   }, []);
 
@@ -90,6 +103,27 @@ export function PortfolioOS() {
     window.setTimeout(() => setToasts((items) => items.filter((toast) => toast.id !== id)), 4200);
   }, []);
 
+  const unlockAchievement = useCallback((id: string) => {
+    setAchievements((current) => {
+      if (current.includes(id)) return current;
+      const next = [...current, id];
+      window.localStorage.setItem(achievementStorageKey, JSON.stringify(next));
+      const unlocked = achievementCatalog.find((item) => item.id === id);
+      if (unlocked) pushToast("Achievement unlocked", unlocked.title, "success");
+      return next;
+    });
+  }, [pushToast]);
+
+  const openTrackedApp = useCallback((id: AppId) => {
+    openApp(id);
+    setRecentApps((current) => {
+      const next = [id, ...current.filter((item) => item !== id)].slice(0, 5);
+      window.localStorage.setItem(recentStorageKey, JSON.stringify(next));
+      return next;
+    });
+    if (id === "projects") unlockAchievement("projects");
+  }, [openApp, unlockAchievement]);
+
   const dockClick = useCallback((id: AppId) => {
     setBouncingDock(id);
     window.setTimeout(() => setBouncingDock((current) => (current === id ? null : current)), 520);
@@ -102,15 +136,26 @@ export function PortfolioOS() {
   }, [prefs.language, pushToast, setAllWindows]);
 
   const downloadCv = useCallback(() => {
-    const anchor = document.createElement("a");
-    anchor.href = resumePdfUrl;
-    anchor.download = "hissaneomaradamcv.pdf";
-    anchor.rel = "noreferrer";
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-    pushToast("Resume.app", "CV download started.", "success");
-  }, [pushToast]);
+    setPrinter({ active: true, progress: 0 });
+    let progress = 0;
+    const timer = window.setInterval(() => {
+      progress += 20;
+      setPrinter({ active: true, progress });
+      if (progress >= 100) {
+        window.clearInterval(timer);
+        const anchor = document.createElement("a");
+        anchor.href = resumePdfUrl;
+        anchor.download = "hissaneomaradamcv.pdf";
+        anchor.rel = "noreferrer";
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        unlockAchievement("resume");
+        pushToast("Printer", "CV printed to downloads.", "success");
+        window.setTimeout(() => setPrinter({ active: false, progress: 0 }), 900);
+      }
+    }, 180);
+  }, [pushToast, unlockAchievement]);
 
   const setPreference = useCallback(<K extends keyof Preferences>(key: K, value: Preferences[K]) => {
     setPrefs((current) => ({ ...current, [key]: value }));
@@ -121,7 +166,7 @@ export function PortfolioOS() {
     pushToast("Portfolio OS", "Restarting interface...", "warn");
     window.setTimeout(() => {
       resetWindows();
-      setBootStage("bios");
+      setBootStage("loading");
       setSystemMode("normal");
       window.setTimeout(() => setBootStage("desktop"), 1400);
     }, 1200);
@@ -146,15 +191,15 @@ export function PortfolioOS() {
       }
       if (mod && key === ",") {
         event.preventDefault();
-        openApp("settings");
+        openTrackedApp("settings");
       }
       if (mod && key === "t") {
         event.preventDefault();
-        openApp("terminal");
+        openTrackedApp("terminal");
       }
       if (mod && key === "p") {
         event.preventDefault();
-        openApp("music");
+        openTrackedApp("music");
       }
       if (event.key === "Escape") {
         setSpotlight(false);
@@ -163,17 +208,18 @@ export function PortfolioOS() {
       }
       if (mod && Number(event.key) >= 1 && Number(event.key) <= 9) {
         event.preventDefault();
-        openApp(localizedDockApps[Number(event.key) - 1].id);
+        openTrackedApp(localizedDockApps[Number(event.key) - 1].id);
       }
       setTyped((current) => {
         const next = `${current}${key}`.slice(-16);
         if (next.includes("hire me")) {
-          openApp("contact");
-          openApp("whyhire");
+          openTrackedApp("contact");
+          openTrackedApp("whyhire");
+          unlockAchievement("secret");
           pushToast("Secret achievement", "Typed 'hire me'. Contact.app opened.", "success");
         }
         if (next.includes("mongodb")) {
-          openApp("certifications");
+          openTrackedApp("certifications");
           pushToast("Shortcut found", "MongoDB credentials are open.", "success");
         }
         return next;
@@ -181,7 +227,8 @@ export function PortfolioOS() {
       setKonami((current) => {
         const next = `${current} ${event.key}`.trim().slice(-70);
         if (next.endsWith("ArrowUp ArrowUp ArrowDown ArrowDown ArrowLeft ArrowRight ArrowLeft ArrowRight b a")) {
-          openApp("whyhire");
+          openTrackedApp("whyhire");
+          unlockAchievement("secret");
           pushToast("Secret badge unlocked", "Konami Code: Builder Mode.", "success");
         }
         return next;
@@ -189,7 +236,7 @@ export function PortfolioOS() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [localizedDockApps, openApp, pushToast, systemMode, windowAction]);
+  }, [localizedDockApps, openTrackedApp, pushToast, systemMode, unlockAchievement, windowAction]);
 
   const activeWindow = useMemo(() => localizedApps.find((app) => app.id === activeWindowState?.id)?.title ?? "Finder", [activeWindowState, localizedApps]);
 
@@ -236,12 +283,12 @@ export function PortfolioOS() {
           const next = appleClicks + 1;
           setAppleClicks(next);
           if (next === 5) {
-            openApp("terminal");
-            openApp("whyhire");
+            openTrackedApp("terminal");
+            openTrackedApp("whyhire");
             pushToast("Developer mode unlocked", "Apple logo clicked 5 times.", "success");
           }
         }}
-        onOpen={openApp}
+        onOpen={openTrackedApp}
         onDownload={downloadCv}
         onPref={setPreference}
         prefs={prefs}
@@ -249,14 +296,14 @@ export function PortfolioOS() {
         onRestart={triggerRestart}
         onSleep={() => runSystemMode("sleep")}
         onScreensaver={() => runSystemMode("screensaver")}
-        onHelp={() => openApp("help")}
+        onHelp={() => openTrackedApp("help")}
       />
 
       <section className="desktop" aria-label="Interactive portfolio operating system">
-        <DesktopIntro onOpen={openApp} />
-        <DesktopIcons onOpen={openApp} onTrash={() => {
-          pushToast("Trash", "Nothing to delete. The bugs were already shipped to production.", "warn");
-          runSystemMode("crash");
+        <DesktopIntro onOpen={openTrackedApp} />
+        <DesktopIcons onOpen={openTrackedApp} onTrash={() => {
+          openTrackedApp("bugbin");
+          pushToast("Trash", "Recovered bugs moved to Bug Bin.", "info");
         }} />
         <AnimatePresence>
           {localizedApps.map((app) => {
@@ -277,10 +324,20 @@ export function PortfolioOS() {
                 <WindowContent
                   id={app.id}
                   prefs={prefs}
-                  onOpen={openApp}
+                  onOpen={openTrackedApp}
                   onDownload={downloadCv}
                   onPref={setPreference}
                   onToast={pushToast}
+                  achievements={achievements}
+                  onUnlock={unlockAchievement}
+                  trashEmpties={trashEmpties}
+                  onEmptyTrash={() => {
+                    const next = trashEmpties + 1;
+                    setTrashEmpties(next);
+                    unlockAchievement("bugbin");
+                    pushToast("Bug Bin", next >= 3 ? "Secret hiring window unlocked." : "Recovered bugs removed.", "success");
+                    if (next >= 3) openTrackedApp("whyhire");
+                  }}
                 />
               </OsWindow>
             );
@@ -299,8 +356,9 @@ export function PortfolioOS() {
         github={profile.github}
         linkedin={profile.linkedin}
       />
-      <Spotlight open={spotlight} onClose={() => setSpotlight(false)} onOpen={openApp} onDownload={downloadCv} onToast={pushToast} />
-      <ContextMenu position={contextMenu} onOpen={openApp} onPref={setPreference} prefs={prefs} onRestart={triggerRestart} />
+      <PrinterOverlay printer={printer} />
+      <Spotlight open={spotlight} onClose={() => setSpotlight(false)} onOpen={openTrackedApp} onDownload={downloadCv} onToast={pushToast} recentApps={recentApps} />
+      <ContextMenu position={contextMenu} onOpen={openTrackedApp} onPref={setPreference} prefs={prefs} onRestart={triggerRestart} />
       <ToastStack toasts={toasts} />
       <SystemOverlay mode={systemMode} onRestart={triggerRestart} />
     </main>
@@ -318,28 +376,27 @@ function readPreferences() {
   }
 }
 
-function BootScreen({ stage }: { stage: "bios" | "login" | "desktop" }) {
+function readStringList(key: string) {
+  try {
+    const saved = window.localStorage.getItem(key);
+    return saved ? JSON.parse(saved) : [];
+  } catch {
+    return [];
+  }
+}
+
+function BootScreen({ stage }: { stage: "loading" | "desktop" }) {
   const { language } = useI18n();
   return (
     <AnimatePresence>
       {stage !== "desktop" && (
         <motion.div className="boot-screen" initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
-          {stage === "bios" ? (
-            <motion.div className="bios-card" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <p>Portfolio ROM v9.1</p>
-              <p>{language === "fr" ? "Vérification mémoire : 2048K OK" : "Memory check: 2048K OK"}</p>
-              <p>{language === "fr" ? "Montage de Skills.disk... OK" : "Mounting Skills.disk... OK"}</p>
-              <p>{language === "fr" ? "Montage de Certificates.disk... OK" : "Mounting Certificates.disk... OK"}</p>
-              <div className="boot-progress"><motion.span initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.2 }} /></div>
-            </motion.div>
-          ) : (
-            <motion.div className="login-card" initial={{ y: 18, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-              <div className="boot-logo">OA</div>
-              <h1>{language === "fr" ? "Bienvenue, Omar Adam" : "Welcome, Omar Adam"}</h1>
-              <p>{language === "fr" ? "Connexion à HISSANE Portfolio OS..." : "Signing into HISSANE Portfolio OS..."}</p>
-              <div className="loading-icons"><span /><span /><span /><span /></div>
-            </motion.div>
-          )}
+          <motion.div className="login-card" initial={{ y: 18, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
+            <div className="boot-logo">OA</div>
+            <h1>{language === "fr" ? "Bienvenue, Omar Adam" : "Welcome, Omar Adam"}</h1>
+            <p>{language === "fr" ? "Chargement de HISSANE Portfolio OS..." : "Loading HISSANE Portfolio OS..."}</p>
+            <div className="boot-progress"><motion.span initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.25 }} /></div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
@@ -533,6 +590,8 @@ function DesktopIcons({ onOpen, onTrash }: { onOpen: (id: AppId) => void; onTras
     { id: "contact" as AppId, label: t("desktop.contact"), icon: Mail },
     { id: "resume" as AppId, label: t("desktop.documents"), icon: FileText },
     { id: "music" as AppId, label: t("desktop.music"), icon: Music },
+    { id: "guestbook" as AppId, label: "Guestbook.app", icon: BookOpenText },
+    { id: "achievements" as AppId, label: "Badges.app", icon: Trophy },
     { id: "settings" as AppId, label: t("desktop.settings"), icon: Settings },
   ];
   return (
@@ -562,6 +621,10 @@ function WindowContent({
   onDownload,
   onPref,
   onToast,
+  achievements,
+  onUnlock,
+  trashEmpties,
+  onEmptyTrash,
 }: {
   id: AppId;
   prefs: Preferences;
@@ -569,6 +632,10 @@ function WindowContent({
   onDownload: () => void;
   onPref: <K extends keyof Preferences>(key: K, value: Preferences[K]) => void;
   onToast: (title: string, text: string, tone?: Toast["tone"]) => void;
+  achievements: string[];
+  onUnlock: (id: string) => void;
+  trashEmpties: number;
+  onEmptyTrash: () => void;
 }) {
   switch (id) {
     case "about": return <AboutPage onOpen={onOpen} />;
@@ -586,6 +653,9 @@ function WindowContent({
     case "mac": return <AboutMacApp />;
     case "help": return <HelpApp />;
     case "whyhire": return <WhyHireApp />;
+    case "bugbin": return <BugBinApp empties={trashEmpties} onEmpty={onEmptyTrash} />;
+    case "guestbook": return <GuestbookApp onToast={onToast} onUnlock={onUnlock} />;
+    case "achievements": return <AchievementsApp unlocked={achievements} />;
     default: return null;
   }
 }
@@ -686,24 +756,107 @@ function WhyHireApp() {
   return <div className="why-hire"><p className="label">{language === "fr" ? "Fenêtre secrète" : "Secret Window"}</p><h2>{language === "fr" ? "Pourquoi recruter Omar ?" : "Why hire Omar?"}</h2><p>{language === "fr" ? "Parce qu'il combine livraison full-stack, curiosité produit, apprentissage rapide, expérience entrepreneuriale et goût visuel solide. Ce portfolio est volontairement conçu comme un système fonctionnel, pas comme un template." : "Because he combines full-stack delivery, product curiosity, fast learning, entrepreneurship experience, and strong visual taste. This portfolio is intentionally built as a working system, not a template."}</p><div className="feature-list"><span>Builder mindset</span><span>Laravel + React</span><span>Product UX</span><span>{language === "fr" ? "Prêt pour stage" : "Internship ready"}</span></div></div>;
 }
 
-function Spotlight({ open, onClose, onOpen, onDownload, onToast }: { open: boolean; onClose: () => void; onOpen: (id: AppId) => void; onDownload: () => void; onToast: (title: string, text: string, tone?: Toast["tone"]) => void }) {
+function BugBinApp({ empties, onEmpty }: { empties: number; onEmpty: () => void }) {
+  const bugs = ["Contact layout overflow", "Missing email endpoint fallback", "Cramped link cards", "Untracked project visits"];
+  return <div className="bug-bin"><p className="label">Recovered Bugs</p><h2>Bug Bin</h2><div className="bug-list">{bugs.map((bug, index) => <span key={bug}><Bug size={15} /> #{index + 1} {bug}</span>)}</div><button className="download-button" onClick={onEmpty}><Trash2 size={16} /> Empty Bug Bin</button><small>{empties}/3 empties toward a secret window</small></div>;
+}
+
+function GuestbookApp({ onToast, onUnlock }: { onToast: (title: string, text: string, tone?: Toast["tone"]) => void; onUnlock: (id: string) => void }) {
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
+  async function submit(event: React.FormEvent) {
+    event.preventDefault();
+    if (!name.trim() || !message.trim()) {
+      onToast("Guestbook", "Add your name and note first.", "warn");
+      return;
+    }
+    setSending(true);
+    try {
+      if (contactEndpoint) {
+        await fetch(contactEndpoint, {
+          method: "POST",
+          headers: { Accept: "application/json", "Content-Type": "application/json" },
+          body: JSON.stringify({ name: name.trim(), message: message.trim(), subject: "Portfolio guestbook note", source: "Guestbook.app" }),
+        });
+      }
+      setName("");
+      setMessage("");
+      onUnlock("guestbook");
+      onToast("Guestbook signed", "Thanks for leaving a note.", "success");
+    } catch {
+      onToast("Guestbook", "Could not send the note right now.", "warn");
+    } finally {
+      setSending(false);
+    }
+  }
+  return (
+    <form className="guestbook-app" onSubmit={submit}>
+      <section className="guestbook-cover">
+        <div className="guestbook-badge"><BookOpenText size={30} /></div>
+        <div>
+          <p className="label">Guestbook</p>
+          <h2>Sign the visitor log</h2>
+          <p>Leave a short note, collaboration idea, or first impression.</p>
+        </div>
+      </section>
+      <div className="guestbook-layout">
+        <div className="guestbook-page">
+          <label><span>Name</span><input value={name} onChange={(event) => setName(event.target.value)} placeholder="Your name" /></label>
+          <label><span>Note</span><textarea value={message} onChange={(event) => setMessage(event.target.value)} placeholder="What should Omar know?" maxLength={520} /></label>
+          <div className="mail-status"><span>{contactEndpoint ? "Sends through the portfolio endpoint." : "Endpoint not configured."}</span><b>{message.length}/520</b></div>
+          <button className={`download-button send-button ${sending ? "sending" : ""}`} disabled={sending}><BookOpenText size={16} /> {sending ? "Signing..." : "Sign Guestbook"}</button>
+        </div>
+        <aside className="guestbook-entries">
+          <span>Recent notes</span>
+          <article><strong>Portfolio OS</strong><p>Welcome, visitor. Leave your mark here.</p></article>
+          <article><strong>Recruiter mode</strong><p>Best notes include role, timeline, and project context.</p></article>
+        </aside>
+      </div>
+    </form>
+  );
+}
+
+function AchievementsApp({ unlocked }: { unlocked: string[] }) {
+  return <div className="achievements-app"><p className="label">Portfolio Badges</p><h2>{unlocked.length}/{achievementCatalog.length} unlocked</h2><div className="achievement-grid">{achievementCatalog.map((item) => <article className={unlocked.includes(item.id) ? "unlocked" : ""} key={item.id}><BadgeCheck size={18} /><strong>{item.title}</strong><span>{item.text}</span></article>)}</div></div>;
+}
+
+function PrinterOverlay({ printer }: { printer: { active: boolean; progress: number } }) {
+  if (!printer.active) return null;
+  return <div className="printer-overlay"><Printer size={22} /><div><strong>Printing CV...</strong><span><i style={{ width: `${printer.progress}%` }} /></span></div><b>{printer.progress}%</b></div>;
+}
+
+function Spotlight({ open, onClose, onOpen, onDownload, onToast, recentApps }: { open: boolean; onClose: () => void; onOpen: (id: AppId) => void; onDownload: () => void; onToast: (title: string, text: string, tone?: Toast["tone"]) => void; recentApps: AppId[] }) {
   const { language, t } = useI18n();
   const [query, setQuery] = useState("");
   const results = useMemo(() => {
     const localizedApps = getApps(language);
     const localizedProjects = getProjects(language);
+    const recentResults = recentApps
+      .map((id) => localizedApps.find((app) => app.id === id))
+      .filter(Boolean)
+      .map((app) => ({ title: `Recent: ${app!.title}`, detail: app!.shortcut ?? app!.preview, action: () => onOpen(app!.id), blob: `recent ${app!.title} ${app!.preview}` }));
     const appResults = localizedApps.map((app) => ({ title: app.title, detail: app.preview, action: () => onOpen(app.id), blob: `${app.title} ${app.preview}` }));
     const projectResults = localizedProjects.map((project) => ({ title: project.name, detail: project.labels.join(", "), action: () => onOpen("projects"), blob: `${project.name} ${project.labels.join(" ")} ${project.solution}` }));
     const certResults = certifications.map((cert) => ({ title: cert.title, detail: `${cert.issuer} ${cert.skills.join(", ")}`, action: () => onOpen("certifications"), blob: `${cert.title} ${cert.issuer} ${cert.skills.join(" ")}` }));
-    const utilityResults = [{ title: t("menu.downloadCv"), detail: "Resume.app", action: onDownload, blob: "cv resume download" }, { title: t("contact.copyEmail"), detail: profile.email, action: () => { navigator.clipboard?.writeText(profile.email); onToast(t("contact.copied"), profile.email, "success"); }, blob: "contact email" }];
-    return [...appResults, ...projectResults, ...certResults, ...utilityResults].filter((item) => item.blob.toLowerCase().includes(query.toLowerCase())).slice(0, 8);
-  }, [language, onDownload, onOpen, onToast, query, t]);
+    const utilityResults = [
+      { title: t("menu.downloadCv"), detail: "Printer shortcut", action: onDownload, blob: "cv resume download print" },
+      { title: t("contact.copyEmail"), detail: profile.email, action: () => { navigator.clipboard?.writeText(profile.email); onToast(t("contact.copied"), profile.email, "success"); }, blob: "contact email copy" },
+      { title: "Open Guestbook", detail: "Leave a note", action: () => onOpen("guestbook"), blob: "guestbook note sign" },
+      { title: "Open Bug Bin", detail: "Recovered bugs", action: () => onOpen("bugbin"), blob: "trash bug bin recovered bugs" },
+    ];
+    return [...recentResults, ...appResults, ...projectResults, ...certResults, ...utilityResults].filter((item) => item.blob.toLowerCase().includes(query.toLowerCase())).slice(0, 9);
+  }, [language, onDownload, onOpen, onToast, query, recentApps, t]);
   return (
     <AnimatePresence>
       {open && <motion.div className="spotlight-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
         <motion.div className="spotlight" initial={{ y: -20, scale: 0.98 }} animate={{ y: 0, scale: 1 }} exit={{ y: -16, scale: 0.98 }} onClick={(event) => event.stopPropagation()}>
           <label><Search size={18} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={language === "fr" ? "Rechercher MongoDB, Laravel, UniBuddy, CV, Contact..." : "Search MongoDB, Laravel, UniBuddy, CV, Contact..."} autoFocus /></label>
-          <div className="spotlight-results">{results.map((item) => <button key={`${item.title}-${item.detail}`} onClick={() => { item.action(); onClose(); }}><strong>{item.title}</strong><span>{item.detail}</span></button>)}</div>
+          <div className="spotlight-results">
+            {results.length > 0 ? results.map((item) => <button key={`${item.title}-${item.detail}`} onClick={() => { item.action(); onClose(); }}><strong>{item.title}</strong><span>{item.detail}</span></button>) : (
+              <p className="spotlight-empty">{language === "fr" ? "Aucun résultat. Essayez projets, CV, contact ou MongoDB." : "No results. Try projects, resume, contact, or MongoDB."}</p>
+            )}
+          </div>
         </motion.div>
       </motion.div>}
     </AnimatePresence>
