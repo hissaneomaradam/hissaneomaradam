@@ -5,8 +5,8 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { profile } from "../data/profile";
 import { useI18n } from "../i18n/I18nProvider";
 import type { Toast } from "../types/portfolio";
+import { contactEndpoint } from "../config/contact";
 
-const contactEndpoint = import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined;
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ContactPage({ onToast }: { onToast: (title: string, text: string, tone?: Toast["tone"]) => void }) {

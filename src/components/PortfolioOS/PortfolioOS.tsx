@@ -6,6 +6,7 @@ import { MusicApp } from "../Music/MusicApp";
 import { Dock } from "../Dock/Dock";
 import { OsWindow } from "../Window/Window";
 import { apps } from "../../data/apps";
+import { contactEndpoint } from "../../config/contact";
 import { certifications } from "../../data/certifications";
 import { defaultPrefs } from "../../data/preferences";
 import { profile } from "../../data/profile";
@@ -26,7 +27,6 @@ import SkillsPage from "../../pages/SkillsPage";
 import type { AppId, Preferences, ThemeName, Toast, WallpaperName } from "../../types/portfolio";
 
 const prefStorageKey = "hissane-portfolio-os-v3-prefs";
-const contactEndpoint = import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined;
 const achievementStorageKey = "hissane-portfolio-os-v3-achievements";
 const recentStorageKey = "hissane-portfolio-os-v3-recent";
 

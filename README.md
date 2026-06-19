@@ -61,6 +61,26 @@ The goal is to combine creativity, engineering, storytelling, and technical skil
 
 ---
 
+## Deployment Environment
+
+This project uses Vite, so frontend environment variables must start with `VITE_`.
+
+Create `.env` locally from `.env.example`:
+
+```bash
+VITE_CONTACT_ENDPOINT=https://your-contact-endpoint.example/api/contact
+```
+
+For production, add the same variable in your hosting provider dashboard before building:
+
+```bash
+VITE_CONTACT_ENDPOINT=https://your-real-contact-endpoint
+```
+
+Do not commit `.env`. It is intentionally ignored. If the variable is missing, Contact.app falls back to opening the visitor's email app.
+
+---
+
 ## Portfolio Sections
 
 ### About
