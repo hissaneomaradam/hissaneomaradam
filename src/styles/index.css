@@ -18,13 +18,15 @@
 html,
 body,
 #root {
+  width: 100%;
   min-width: 320px;
   min-height: 100%;
   margin: 0;
+  overflow-x: hidden;
 }
 
 body {
-  min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
 }
 
@@ -65,7 +67,7 @@ a {
   --glass-blur: 14px;
   --retro-opacity: 0.72;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   position: relative;
   overflow: hidden;
   color: var(--ink);
@@ -423,7 +425,7 @@ a {
 .desktop {
   position: relative;
   z-index: 2;
-  height: 100vh;
+  height: 100dvh;
   padding-top: 34px;
   overflow: hidden;
 }
@@ -3310,14 +3312,23 @@ a {
 }
 
 @media (max-width: 780px) {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
   body {
     overflow: auto;
+    overflow-x: hidden;
   }
 
   .os-root {
-    min-height: 100vh;
+    width: 100%;
+    min-height: 100dvh;
     height: auto;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: visible;
   }
 
   .cursor-dot {
@@ -3325,11 +3336,31 @@ a {
   }
 
   .menu-bar {
+    min-height: 38px;
+    gap: 10px;
+    padding: 6px 10px;
     overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .menu-bar::-webkit-scrollbar {
+    display: none;
   }
 
   .menu-left {
     gap: 10px;
+    flex: 0 0 auto;
+  }
+
+  .menu-right {
+    flex: 0 0 auto;
+    gap: 8px;
+  }
+
+  .active-app {
+    max-width: 126px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .menu-left span:not(.active-app) {
@@ -3337,10 +3368,11 @@ a {
   }
 
   .desktop {
-    min-height: 100vh;
+    min-height: 100dvh;
     height: auto;
     overflow: visible;
-    padding-bottom: 110px;
+    padding-top: 38px;
+    padding-bottom: 104px;
   }
 
   .desktop-intro {
@@ -3348,10 +3380,11 @@ a {
     left: auto;
     top: auto;
     width: calc(100% - 24px);
-    margin: 56px auto 16px;
+    margin: 28px auto 16px;
   }
 
   .hero-plaque {
+    padding: 16px;
     border-radius: 22px;
   }
 
@@ -3363,7 +3396,7 @@ a {
   .hero-photo {
     grid-column: 1;
     grid-row: 1;
-    width: min(190px, 56vw);
+    width: min(168px, 50vw);
   }
 
   .hero-copy {
@@ -3385,6 +3418,12 @@ a {
     margin-right: auto;
   }
 
+  .hero-actions .magnetic-button,
+  .hero-actions .download-button {
+    flex: 1 1 148px;
+    min-width: 0;
+  }
+
   .desktop-icons {
     position: relative;
     top: auto;
@@ -3402,6 +3441,7 @@ a {
 
   .desktop-icon {
     width: auto;
+    min-width: 0;
   }
 
   .os-window,
@@ -3412,14 +3452,38 @@ a {
     max-height: none;
     margin: 12px auto;
     transform: none !important;
+    border-radius: 18px;
   }
 
   .window-bar {
-    grid-template-columns: 76px 1fr 28px;
+    grid-template-columns: 72px minmax(0, 1fr) 22px;
+    gap: 6px;
+    padding: 8px 10px;
   }
 
   .window-grip {
-    width: 22px;
+    width: 18px;
+  }
+
+  .window-title {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .window-content {
+    padding: 14px;
+  }
+
+  .about-mac-card,
+  .profile-card,
+  .project-preview-grid,
+  .cert-hero,
+  .guestbook-cover,
+  .music-hero {
+    padding: 14px;
   }
 
   .profile-card,
@@ -3458,6 +3522,11 @@ a {
 
   .project-finder {
     min-height: auto;
+  }
+
+  .setting-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .project-finder-sidebar {
@@ -3501,16 +3570,33 @@ a {
   }
 
   .dock {
+    left: 8px;
+    right: 8px;
     bottom: 10px;
+    width: auto;
+    max-width: none;
     gap: 6px;
+    padding: 8px;
     overflow-x: auto;
     justify-content: flex-start;
+    transform: none;
+    border-radius: 20px;
+    scrollbar-width: none;
+  }
+
+  .dock::-webkit-scrollbar {
+    display: none;
   }
 
   .dock-item {
-    width: 46px;
-    height: 46px;
+    width: 44px;
+    height: 44px;
     flex: 0 0 auto;
+    border-radius: 14px;
+  }
+
+  .dock-preview {
+    display: none;
   }
 
   .menu-panel {
@@ -3541,18 +3627,85 @@ a {
 }
 
 @media (max-width: 480px) {
+  .login-card,
+  .boot-card,
+  .bios-card {
+    width: calc(100vw - 40px);
+    padding: 24px 18px;
+    box-shadow: 10px 10px 0 #111;
+  }
+
+  .boot-logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+  }
+
+  .boot-progress {
+    width: 100%;
+  }
+
+  .menu-group:nth-of-type(n + 4) {
+    display: none;
+  }
+
   .desktop-icons {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .hero-plaque h1 {
-    font-size: 2.3rem;
+    font-size: clamp(2rem, 11vw, 2.35rem);
+    overflow-wrap: anywhere;
+  }
+
+  .claim,
+  .typing-line {
+    font-size: 0.95rem;
+  }
+
+  .hero-meta span,
+  .availability-pill,
+  .feature-list span,
+  .tech-row b,
+  .cert-skills b {
+    font-size: 0.76rem;
   }
 
   .window-title {
-    max-width: 160px;
+    max-width: 170px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .traffic {
+    gap: 6px;
+  }
+
+  .traffic button {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mail-status,
+  .guestbook-page-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .contact-link-card {
+    grid-template-columns: 34px minmax(0, 1fr);
+  }
+
+  .contact-link-card::after {
+    display: none;
+  }
+
+  .printer-overlay,
+  .toast-stack {
+    left: 10px;
+    right: 10px;
+    width: auto;
+    transform: none;
   }
 }

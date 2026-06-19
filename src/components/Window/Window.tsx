@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Maximize2, Minus, X } from "lucide-react";
 import { useI18n } from "../../i18n/I18nProvider";
@@ -40,19 +40,31 @@ export const OsWindow = memo(function OsWindow({
   const { language } = useI18n();
   const Icon = app.icon;
   const maxed = state.maximized;
+  const [stacked, setStacked] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 780px)");
+    const update = () => setStacked(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
   return (
     <motion.section
       className={`os-window window-${app.size} ${maxed ? "maximized" : ""}`}
       style={{ zIndex: state.z }}
-      drag={!maxed && !reducedMotion}
+      drag={!stacked && !maxed && !reducedMotion}
       dragElastic={0.04}
       dragMomentum={false}
-      initial={{ opacity: 0, scale: 0.92, x: state.x, y: 360 }}
-      animate={maxed ? { opacity: 1, scale: 1, x: 18, y: 52 } : { opacity: 1, scale: 1, x: state.x, y: state.y }}
+      initial={stacked ? { opacity: 0, scale: 0.98, x: 0, y: 16 } : { opacity: 0, scale: 0.92, x: state.x, y: 360 }}
+      animate={stacked ? { opacity: 1, scale: 1, x: 0, y: 0 } : maxed ? { opacity: 1, scale: 1, x: 18, y: 52 } : { opacity: 1, scale: 1, x: state.x, y: state.y }}
       exit={{ opacity: 0, scale: 0.92, y: 720, transition: { duration: 0.18 } }}
       transition={{ type: "spring", stiffness: 360, damping: 34 }}
       onMouseDown={() => onFocus(app.id)}
-      onDragEnd={(_, info) => onMove(app.id, Math.max(8, state.x + info.offset.x), Math.max(42, state.y + info.offset.y))}
+      onDragEnd={(_, info) => {
+        if (!stacked) onMove(app.id, Math.max(8, state.x + info.offset.x), Math.max(42, state.y + info.offset.y));
+      }}
     >
       <div className="window-bar">
         <div className="traffic">
