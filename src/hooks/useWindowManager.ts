@@ -9,7 +9,7 @@ const initialWindows: Record<AppId, WindowState> = apps.reduce(
     ...acc,
     [app.id]: {
       id: app.id,
-      status: ["about", "projects"].includes(app.id) ? "open" : "closed",
+      status: "closed",
       z: 20 + index,
       x: 44 + index * 18,
       y: 82 + index * 14,
@@ -23,7 +23,10 @@ function readWindowState() {
   try {
     const saved = window.localStorage.getItem(windowStorageKey);
     if (!saved) return initialWindows;
-    return { ...initialWindows, ...JSON.parse(saved) };
+    const restored = { ...initialWindows, ...JSON.parse(saved) } as Record<AppId, WindowState>;
+    return Object.fromEntries(
+      Object.entries(restored).map(([id, state]) => [id, { ...state, status: "closed", maximized: false }]),
+    ) as Record<AppId, WindowState>;
   } catch {
     return initialWindows;
   }

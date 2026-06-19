@@ -1,7 +1,7 @@
 import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
 import type { LucideIcon } from "lucide-react";
 import { AlertTriangle, Archive, BadgeCheck, BookOpenText, Bug, Check, FileText, Folder, Mail, Music, Moon, Printer, Power, RotateCcw, Search, Settings, Terminal, Trash2, Trophy, UserRound } from "lucide-react";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MusicApp } from "../Music/MusicApp";
 import { Dock } from "../Dock/Dock";
 import { OsWindow } from "../Window/Window";
@@ -68,6 +68,7 @@ export function PortfolioOS() {
   const [recentApps, setRecentApps] = useState<AppId[]>(() => readStringList(recentStorageKey) as AppId[]);
   const [printer, setPrinter] = useState<{ active: boolean; progress: number }>({ active: false, progress: 0 });
   const [trashEmpties, setTrashEmpties] = useState(0);
+  const tourTimers = useRef<number[]>([]);
   const localizedApps = useMemo(() => getApps(prefs.language), [prefs.language]);
   const localizedDockApps = useMemo(() => getDockApps(prefs.language), [prefs.language]);
 
@@ -97,6 +98,12 @@ export function PortfolioOS() {
     return () => window.clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      tourTimers.current.forEach((timer) => window.clearTimeout(timer));
+    };
+  }, []);
+
   const pushToast = useCallback((title: string, text: string, tone: Toast["tone"] = "info") => {
     const id = Date.now();
     setToasts((items) => [...items.slice(-2), { id, title, text, tone }]);
@@ -123,6 +130,45 @@ export function PortfolioOS() {
     });
     if (id === "projects") unlockAchievement("projects");
   }, [openApp, unlockAchievement]);
+
+  const startQuickTour = useCallback(() => {
+    tourTimers.current.forEach((timer) => window.clearTimeout(timer));
+    tourTimers.current = [];
+    setAllWindows("close");
+    const steps: { id: AppId; title: string; text: string }[] = prefs.language === "fr" ? [
+      { id: "about", title: "Tour rapide 1/5", text: "Profil et parcours" },
+      { id: "projects", title: "Tour rapide 2/5", text: "Projets principaux" },
+      { id: "skills", title: "Tour rapide 3/5", text: "Stack technique" },
+      { id: "certifications", title: "Tour rapide 4/5", text: "Certifications vérifiées" },
+      { id: "contact", title: "Tour rapide 5/5", text: "Contact et opportunités" },
+    ] : [
+      { id: "about", title: "Quick Tour 1/5", text: "Profile and background" },
+      { id: "projects", title: "Quick Tour 2/5", text: "Best projects" },
+      { id: "skills", title: "Quick Tour 3/5", text: "Technical stack" },
+      { id: "certifications", title: "Quick Tour 4/5", text: "Verified learning" },
+      { id: "contact", title: "Quick Tour 5/5", text: "Contact and opportunities" },
+    ];
+    steps.forEach((step, index) => {
+      const timer = window.setTimeout(() => {
+        openTrackedApp(step.id);
+        pushToast(step.title, step.text, index === steps.length - 1 ? "success" : "info");
+      }, 240 + index * 1700);
+      tourTimers.current.push(timer);
+    });
+  }, [openTrackedApp, prefs.language, pushToast, setAllWindows]);
+
+  const copyRecruiterPack = useCallback(() => {
+    const text = [
+      `${profile.name} - ${profile.title}`,
+      profile.about,
+      `Portfolio: ${profile.portfolio}`,
+      `GitHub: ${profile.github}`,
+      `LinkedIn: ${profile.linkedin}`,
+      `Email: ${profile.email}`,
+    ].join("\n");
+    navigator.clipboard?.writeText(text);
+    pushToast(prefs.language === "fr" ? "Pack recruteur copié" : "Recruiter pack copied", prefs.language === "fr" ? "Profil, liens et email copiés." : "Profile, links, and email copied.", "success");
+  }, [prefs.language, pushToast]);
 
   const dockClick = useCallback((id: AppId) => {
     setBouncingDock(id);
@@ -300,11 +346,8 @@ export function PortfolioOS() {
       />
 
       <section className="desktop" aria-label="Interactive portfolio operating system">
-        <DesktopIntro onOpen={openTrackedApp} />
-        <DesktopIcons onOpen={openTrackedApp} onTrash={() => {
-          openTrackedApp("bugbin");
-          pushToast("Trash", "Recovered bugs moved to Bug Bin.", "info");
-        }} />
+        <DesktopIntro onOpen={openTrackedApp} onQuickTour={startQuickTour} onRecruiterPack={copyRecruiterPack} />
+        <DesktopIcons onOpen={openTrackedApp} />
         <AnimatePresence>
           {localizedApps.map((app) => {
             const state = windows[app.id];
@@ -510,7 +553,7 @@ function MenuPanel({ children }: { children: React.ReactNode }) {
   return <div className="menu-panel">{children}</div>;
 }
 
-const DesktopIntro = memo(function DesktopIntro({ onOpen }: { onOpen: (id: AppId) => void }) {
+const DesktopIntro = memo(function DesktopIntro({ onOpen, onQuickTour, onRecruiterPack }: { onOpen: (id: AppId) => void; onQuickTour: () => void; onRecruiterPack: () => void }) {
   const { language, t } = useI18n();
   const profileCopy = getProfileCopy(language);
   const typedRole = useTypingRotator([
@@ -541,9 +584,12 @@ const DesktopIntro = memo(function DesktopIntro({ onOpen }: { onOpen: (id: AppId
               <span>{profileCopy.subtitle}</span>
               <span>{profile.location}</span>
             </div>
+            <div className="availability-pill"><span /> Available for opportunities</div>
             <div className="hero-actions">
               <button className="magnetic-button" onClick={() => onOpen("projects")}>{t("hero.launchProjects")}</button>
+              <button className="magnetic-button" onClick={onQuickTour}>{language === "fr" ? "Tour rapide" : "Quick Tour"}</button>
               <button className="magnetic-button ghost" onClick={() => onOpen("resume")}>{t("hero.openResume")}</button>
+              <button className="magnetic-button ghost" onClick={onRecruiterPack}>{language === "fr" ? "Pack recruteur" : "Recruiter Pack"}</button>
               <button className="magnetic-button ghost" onClick={() => onOpen("settings")}>{t("hero.controlPanel")}</button>
             </div>
           </div>
@@ -581,7 +627,7 @@ function HeroProfilePhoto() {
   );
 }
 
-function DesktopIcons({ onOpen, onTrash }: { onOpen: (id: AppId) => void; onTrash: () => void }) {
+function DesktopIcons({ onOpen }: { onOpen: (id: AppId) => void }) {
   const { t } = useI18n();
   const icons = [
     { id: "about" as AppId, label: t("desktop.about"), icon: UserRound },
@@ -600,7 +646,6 @@ function DesktopIcons({ onOpen, onTrash }: { onOpen: (id: AppId) => void; onTras
         const Icon = item.icon;
         return <DesktopIcon key={item.label} label={item.label} icon={Icon} index={index} onOpen={() => onOpen(item.id)} />;
       })}
-      <DesktopIcon label={t("desktop.trash")} icon={Trash2} index={icons.length} onOpen={onTrash} />
     </div>
   );
 }
@@ -664,6 +709,10 @@ function TerminalApp({ onOpen, onDownload, onToast, onPref }: { onOpen: (id: App
   const { language } = useI18n();
   const [lines, setLines] = useState(["Portfolio OS terminal", "Type help. Try sudo hire-me, matrix, open projects."]);
   const [value, setValue] = useState("");
+  const [typing, setTyping] = useState(false);
+  const typingTimer = useRef<number | null>(null);
+  const typingRun = useRef(0);
+  const fullTypingLine = useRef("");
   const commandMap: Record<string, () => string | void> = {
     help: () => "Commands: whoami, about, skills, projects, certifications, education, experience, awards, contact, resume, music, open projects, open github, download cv, clear, theme retro, theme glass, theme dark, language en, language fr, matrix, sudo hire-me",
     whoami: () => profile.name,
@@ -692,19 +741,63 @@ function TerminalApp({ onOpen, onDownload, onToast, onPref }: { onOpen: (id: App
     "girlfriend":()=>"npm install girlfriend                                           ERR! package not found",
     "sudo hire-me": () => { onOpen("whyhire"); onOpen("contact"); onToast("Hiring sequence", "Why Hire Me and Contact.app opened.", "success"); return "Permission granted. Strong candidate detected."; },
   };
+  useEffect(() => {
+    return () => {
+      if (typingTimer.current) window.clearInterval(typingTimer.current);
+    };
+  }, []);
+  function typeResponse(text: string) {
+    if (typingTimer.current) window.clearInterval(typingTimer.current);
+    fullTypingLine.current = text;
+    const run = typingRun.current + 1;
+    typingRun.current = run;
+    setTyping(true);
+    let index = 0;
+    typingTimer.current = window.setInterval(() => {
+      index += 1;
+      setLines((current) => {
+        const next = [...current];
+        next[next.length - 1] = text.slice(0, index);
+        return next;
+      });
+      if (index >= text.length) {
+        if (typingTimer.current) window.clearInterval(typingTimer.current);
+        typingTimer.current = null;
+        if (typingRun.current === run) setTyping(false);
+      }
+    }, Math.max(12, Math.min(28, 420 / Math.max(text.length, 1))));
+  }
   function submit(event: React.FormEvent) {
     event.preventDefault();
     const command = value.trim().toLowerCase();
+    if (!command) return;
+    if (typingTimer.current) {
+      window.clearInterval(typingTimer.current);
+      typingTimer.current = null;
+      typingRun.current += 1;
+      setTyping(false);
+      setLines((current) => {
+        const next = [...current];
+        next[next.length - 1] = fullTypingLine.current;
+        return next;
+      });
+    }
     if (command === "clear") {
+      if (typingTimer.current) window.clearInterval(typingTimer.current);
+      typingTimer.current = null;
+      typingRun.current += 1;
+      setTyping(false);
       setLines([]);
       setValue("");
       return;
     }
     const result = commandMap[command]?.() ?? (command.startsWith("open ") && apps.some((app) => app.id === command.replace("open ", "")) ? (() => { onOpen(command.replace("open ", "") as AppId); return `Opening ${command.replace("open ", "")}.`; })() : "Unknown command. Type help.");
-    setLines((current) => [...current, `$ ${value}`, String(result)].slice(-12));
+    const response = result == null ? "" : String(result);
+    setLines((current) => [...current, `$ ${value}`, ""].slice(-12));
     setValue("");
+    typeResponse(response);
   }
-  return <div className="terminal-app"><div className="terminal-lines">{lines.map((line, index) => <p key={`${line}-${index}`}>{line}</p>)}</div><form onSubmit={submit}><span>$</span><input value={value} onChange={(event) => setValue(event.target.value)} autoFocus /></form></div>;
+  return <div className="terminal-app"><div className="terminal-lines">{lines.map((line, index) => <p className={typing && index === lines.length - 1 ? "typing" : ""} key={`${line}-${index}`}>{line}</p>)}</div><form onSubmit={submit}><span>$</span><input value={value} onChange={(event) => setValue(event.target.value)} autoFocus /></form></div>;
 }
 
 function SettingsApp({ prefs, onPref }: { prefs: Preferences; onPref: <K extends keyof Preferences>(key: K, value: Preferences[K]) => void }) {
@@ -762,13 +855,42 @@ function BugBinApp({ empties, onEmpty }: { empties: number; onEmpty: () => void 
 }
 
 function GuestbookApp({ onToast, onUnlock }: { onToast: (title: string, text: string, tone?: Toast["tone"]) => void; onUnlock: (id: string) => void }) {
+  const { language } = useI18n();
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
+  const copy = {
+    title: language === "fr" ? "Signer le registre visiteur" : "Sign the visitor log",
+    intro: language === "fr" ? "Laissez une note courte, une idée de collaboration ou une première impression pour HISSANE OS." : "Leave a short note, collaboration idea, or first impression for HISSANE OS.",
+    stamp: language === "fr" ? "Registre" : "Visitor Log",
+    entry: language === "fr" ? "Entrée" : "Entry",
+    name: language === "fr" ? "Votre nom" : "Your name",
+    namePlaceholder: language === "fr" ? "Recruteur, développeur, ami..." : "Recruiter, builder, friend...",
+    note: language === "fr" ? "Votre note" : "Your note",
+    notePlaceholder: language === "fr" ? "Que devrait savoir Omar ?" : "What should Omar know?",
+    endpointOn: language === "fr" ? "Envoyé via l'endpoint du portfolio." : "Sends through the portfolio endpoint.",
+    endpointOff: language === "fr" ? "Endpoint non configuré." : "Endpoint not configured.",
+    signing: language === "fr" ? "Signature..." : "Signing...",
+    submit: language === "fr" ? "Signer le registre" : "Sign Guestbook",
+    recent: language === "fr" ? "Notes récentes" : "Recent notes",
+    system: language === "fr" ? "Système" : "System",
+    welcomeTitle: "Portfolio OS",
+    welcome: language === "fr" ? "Bienvenue, visiteur. Laissez votre marque ici." : "Welcome, visitor. Leave your mark here.",
+    hint: language === "fr" ? "Indice" : "Hint",
+    recruiterTitle: language === "fr" ? "Mode recruteur" : "Recruiter mode",
+    recruiter: language === "fr" ? "Les meilleures notes incluent le rôle, le délai et le contexte du projet." : "Best notes include role, timeline, and project context.",
+    preview: language === "fr" ? "Aperçu live" : "Live preview",
+    previewName: language === "fr" ? "Votre nom" : "Your name",
+    previewText: language === "fr" ? "Votre note ressemblera à une entrée du registre visiteur." : "Your note will feel like an entry in the visitor log.",
+    missing: language === "fr" ? "Ajoutez votre nom et une note d'abord." : "Add your name and note first.",
+    signedTitle: language === "fr" ? "Registre signé" : "Guestbook signed",
+    signedText: language === "fr" ? "Merci pour votre note." : "Thanks for leaving a note.",
+    failed: language === "fr" ? "Impossible d'envoyer la note maintenant." : "Could not send the note right now.",
+  };
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     if (!name.trim() || !message.trim()) {
-      onToast("Guestbook", "Add your name and note first.", "warn");
+      onToast("Guestbook", copy.missing, "warn");
       return;
     }
     setSending(true);
@@ -783,9 +905,9 @@ function GuestbookApp({ onToast, onUnlock }: { onToast: (title: string, text: st
       setName("");
       setMessage("");
       onUnlock("guestbook");
-      onToast("Guestbook signed", "Thanks for leaving a note.", "success");
+      onToast(copy.signedTitle, copy.signedText, "success");
     } catch {
-      onToast("Guestbook", "Could not send the note right now.", "warn");
+      onToast("Guestbook", copy.failed, "warn");
     } finally {
       setSending(false);
     }
@@ -796,21 +918,27 @@ function GuestbookApp({ onToast, onUnlock }: { onToast: (title: string, text: st
         <div className="guestbook-badge"><BookOpenText size={30} /></div>
         <div>
           <p className="label">Guestbook</p>
-          <h2>Sign the visitor log</h2>
-          <p>Leave a short note, collaboration idea, or first impression.</p>
+          <h2>{copy.title}</h2>
+          <p>{copy.intro}</p>
         </div>
+        <span className="guestbook-stamp">{copy.stamp}</span>
       </section>
       <div className="guestbook-layout">
         <div className="guestbook-page">
-          <label><span>Name</span><input value={name} onChange={(event) => setName(event.target.value)} placeholder="Your name" /></label>
-          <label><span>Note</span><textarea value={message} onChange={(event) => setMessage(event.target.value)} placeholder="What should Omar know?" maxLength={520} /></label>
-          <div className="mail-status"><span>{contactEndpoint ? "Sends through the portfolio endpoint." : "Endpoint not configured."}</span><b>{message.length}/520</b></div>
-          <button className={`download-button send-button ${sending ? "sending" : ""}`} disabled={sending}><BookOpenText size={16} /> {sending ? "Signing..." : "Sign Guestbook"}</button>
+          <div className="guestbook-page-head">
+            <span>{copy.entry} #{String(message.length + name.length + 1).padStart(3, "0")}</span>
+            <b>{new Intl.DateTimeFormat(language === "fr" ? "fr" : "en", { month: "short", day: "2-digit" }).format(new Date())}</b>
+          </div>
+          <label><span>{copy.name}</span><input value={name} onChange={(event) => setName(event.target.value)} placeholder={copy.namePlaceholder} /></label>
+          <label><span>{copy.note}</span><textarea value={message} onChange={(event) => setMessage(event.target.value)} placeholder={copy.notePlaceholder} maxLength={520} /></label>
+          <div className="mail-status"><span>{contactEndpoint ? copy.endpointOn : copy.endpointOff}</span><b>{message.length}/520</b></div>
+          <button className={`download-button send-button ${sending ? "sending" : ""}`} disabled={sending}><BookOpenText size={16} /> {sending ? copy.signing : copy.submit}</button>
         </div>
         <aside className="guestbook-entries">
-          <span>Recent notes</span>
-          <article><strong>Portfolio OS</strong><p>Welcome, visitor. Leave your mark here.</p></article>
-          <article><strong>Recruiter mode</strong><p>Best notes include role, timeline, and project context.</p></article>
+          <span>{copy.recent}</span>
+          <article><small>{copy.system}</small><strong>{copy.welcomeTitle}</strong><p>{copy.welcome}</p></article>
+          <article><small>{copy.hint}</small><strong>{copy.recruiterTitle}</strong><p>{copy.recruiter}</p></article>
+          <article><small>{copy.preview}</small><strong>{name.trim() || copy.previewName}</strong><p>{message.trim() || copy.previewText}</p></article>
         </aside>
       </div>
     </form>
