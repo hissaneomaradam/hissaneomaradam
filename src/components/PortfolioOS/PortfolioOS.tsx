@@ -618,6 +618,8 @@ function TerminalApp({ onOpen, onDownload, onToast, onPref }: { onOpen: (id: App
     "language en": () => { onPref("language", "en"); return "Language set to English"; },
     "language fr": () => { onPref("language", "fr"); return "Langue réglée sur français"; },
     matrix: () => "01001111 01001101 01000001 01010010 :: builder mode online",
+    "sudo daltons":()=>"A7LA TA7IA L A7LA DALTONS : MOAD CHOUKI, NIZAR SADIKI , ABDESSAMAD CHAHID",
+    "girlfriend":()=>"npm install girlfriend                                           ERR! package not found",
     "sudo hire-me": () => { onOpen("whyhire"); onOpen("contact"); onToast("Hiring sequence", "Why Hire Me and Contact.app opened.", "success"); return "Permission granted. Strong candidate detected."; },
   };
   function submit(event: React.FormEvent) {
