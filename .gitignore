@@ -5,3 +5,5 @@ dist/
 npm-debug.log*
 /src/imports/
 default_shadcn_theme.css
+.github
+dist/

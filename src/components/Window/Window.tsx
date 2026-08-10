@@ -2,6 +2,7 @@ import { memo, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Maximize2, Minus, X } from "lucide-react";
 import { useI18n } from "../../i18n/I18nProvider";
+import type { AppId } from "../../types/portfolio";
 
 type OsWindowProps = {
   app: {
@@ -19,11 +20,11 @@ type OsWindowProps = {
   };
   reducedMotion: boolean;
   children: React.ReactNode;
-  onFocus: (id: any) => void;
-  onMove: (id: any, x: number, y: number) => void;
-  onClose: (id: any) => void;
-  onMinimize: (id: any) => void;
-  onMaximize: (id: any) => void;
+  onFocus: (id: AppId) => void;
+  onMove: (id: AppId, x: number, y: number) => void;
+  onClose: (id: AppId) => void;
+  onMinimize: (id: AppId) => void;
+  onMaximize: (id: AppId) => void;
 };
 
 export const OsWindow = memo(function OsWindow({

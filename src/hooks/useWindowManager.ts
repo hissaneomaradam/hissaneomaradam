@@ -1,8 +1,10 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { apps } from "../data/apps";
 import type { AppId, WindowState } from "../types/portfolio";
 
 const windowStorageKey = "hissane-portfolio-os-v3-windows";
+const windowPadding = 12;
+const topBarHeight = 42;
 
 const initialWindows: Record<AppId, WindowState> = apps.reduce(
   (acc, app, index) => ({
@@ -19,6 +21,40 @@ const initialWindows: Record<AppId, WindowState> = apps.reduce(
   {} as Record<AppId, WindowState>,
 );
 
+function getWindowWidth(size: "sm" | "md" | "lg" | "xl") {
+  switch (size) {
+    case "sm":
+      return 520;
+    case "md":
+      return 640;
+    case "lg":
+      return 830;
+    case "xl":
+      return 1040;
+  }
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function normalizeWindows(
+  windows: Record<AppId, WindowState>,
+  viewportWidth = window.innerWidth,
+  viewportHeight = window.innerHeight,
+) {
+  const maxHeight = Math.max(320, viewportHeight - 128);
+  return Object.fromEntries(
+    Object.entries(windows).map(([id, state]) => {
+      const app = apps.find((item) => item.id === id);
+      const width = Math.min(getWindowWidth(app?.size ?? "md"), viewportWidth - windowPadding * 2);
+      const x = clamp(state.x, windowPadding, Math.max(windowPadding, viewportWidth - width - windowPadding));
+      const y = clamp(state.y, topBarHeight, Math.max(topBarHeight, maxHeight - windowPadding));
+      return [id, { ...state, x, y }];
+    }),
+  ) as Record<AppId, WindowState>;
+}
+
 function readWindowState() {
   try {
     const saved = window.localStorage.getItem(windowStorageKey);
@@ -33,12 +69,22 @@ function readWindowState() {
 }
 
 export function useWindowManager() {
-  const [windows, setWindows] = useState<Record<AppId, WindowState>>(() => readWindowState());
+  const [windows, setWindows] = useState<Record<AppId, WindowState>>(() => normalizeWindows(readWindowState()));
   const [topZ, setTopZ] = useState(100);
 
   const persist = useCallback(() => {
     window.localStorage.setItem(windowStorageKey, JSON.stringify(windows));
   }, [windows]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindows((current) => normalizeWindows(current));
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const focusApp = useCallback((id: AppId) => {
     setTopZ((z) => {
@@ -70,7 +116,7 @@ export function useWindowManager() {
   }, [focusApp]);
 
   const moveApp = useCallback((id: AppId, x: number, y: number) => {
-    setWindows((current) => ({ ...current, [id]: { ...current[id], x, y } }));
+    setWindows((current) => normalizeWindows({ ...current, [id]: { ...current[id], x, y } }));
   }, []);
 
   const toggleFromDock = useCallback((id: AppId) => {
@@ -99,7 +145,7 @@ export function useWindowManager() {
     );
   }, []);
 
-  const resetWindows = useCallback(() => setWindows(initialWindows), []);
+  const resetWindows = useCallback(() => setWindows(normalizeWindows(initialWindows)), []);
 
   const activeWindowState = useMemo(() => {
     return Object.values(windows).filter((state) => state.status === "open").sort((a, b) => b.z - a.z)[0] ?? null;
