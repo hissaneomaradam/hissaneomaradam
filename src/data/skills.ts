@@ -2,6 +2,7 @@ export const skillGroups = [
   {
     title: "Core Stack",
     skills: [
+      "C",
       "Laravel",
       "React",
       "PHP",

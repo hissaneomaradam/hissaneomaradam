@@ -28,6 +28,7 @@ import type { LucideIcon } from "lucide-react";
 import {
   SiBootstrap,
   SiCss,
+  SiC,
   SiDocker,
   SiFigma,
   SiGithub,
@@ -75,6 +76,7 @@ const groupIcons: Record<string, SkillIcon> = {
 
 const skillIcons: Record<string, SkillIcon> = {
   laravel: SiLaravel,
+  c: SiC,
   react: SiReact,
   php: SiPhp,
   javascript: SiJavascript,

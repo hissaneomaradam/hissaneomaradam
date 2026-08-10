@@ -19,7 +19,7 @@ export default function EducationPage() {
   const { t } = useI18n();
   return (
     <div className="education-map">
-      <Milestone title="Développement Web Full Stack" meta="CMC Béni Mellal - OFPPT" date="Sep 2025 - Present" note={t("education.fullStack.note")} />
+      <Milestone title="Développement Web Full Stack" meta="CMC Béni Mellal - OFPPT" date="Sep 2025 - July 2026" note={t("education.fullStack.note")} />
       <Milestone title="Développement Digital" meta="ISGI Khouribga" date="Sep 2024 - Jul 2025" note={t("education.digital.note")} />
     </div>
   );

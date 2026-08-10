@@ -1,5 +1,15 @@
 [
   {
+    "title": "One Million Prompters",
+    "issuer": "Dubai Future Foundation",
+    "issued": "Jun 2026",
+    "credentialId": "https://omp.dub.ai/certificate/38upNZTSxDeD",
+    "skills": ["AI Prompting", "Generative AI"],
+    "category": "AI",
+    "logo": "DFF",
+    "url": "https://omp.dub.ai/certificate/38upNZTSxDeD"
+  },
+  {
     "title": "CRUD Operations in MongoDB",
     "issuer": "MongoDB",
     "issued": "Jun 2026",
@@ -107,6 +117,6 @@
     "skills": ["IoT"],
     "category": "Infrastructure",
     "logo": "CS",
-    "url": "https://www.credly.com/badges/91d8604b-083f-489f-8426-4b4e27219590/linked_in_profile"
+    "url": "https://www.credly.com/badges/bd146166-742d-41da-b730-e47c3b2869a1/public_url"
   }
 ]
